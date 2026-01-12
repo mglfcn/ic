@@ -5,8 +5,9 @@
    - Abre la carpeta ‘Software_Disponible’ que está en el escritorio y ejecuta el enlace directo ‘Safe Exam Browser 3.10’. 
    - Teclea 'Safe Exam' en el 'cuadro de búsqueda' de la barra de tareas de Windows (abajo a la izquierda) y ejecútalo.  
       Si el cuadro de búsqueda de Windows no aparece → clic derecho en la barra de tareas / Búsqueda / Mostrar cuadro de búsqueda.
-   - Descarga y abre el fichero [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)  
-      ¡Ojo! Es posible que tu navegador quiera guardarlo como 'SEB.download'. Cambia el nombre antes de guardar a 'SEB.lnk' (ele, ene, ka) o renómbralo después.
+   - Descarga el fichero [SEB.zip](https://mglfcn.github.io/ic/SEB.zip), abrelo y ejecuta el acceso directo que está dentro.   
+   - Descarga y abre directamente el fichero con el acceso directo [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)  
+     ¡Ojo! Es posible que tu navegador quiera guardarlo como 'SEB.download'. Cambia el nombre antes de guardar a 'SEB.lnk' (ele, ene, ka) o renómbralo después.
    
 3. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
 
