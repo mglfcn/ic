@@ -1,7 +1,7 @@
 
 # Instrucciones
 ## Si estás en las salas de Informática de centro (A1, A2, A3, 4, 5, 6)
-- Descarga y abre el fichero [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)
+- Descarga y abre el fichero [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)  
   ¡ Ojo! Windows querrá guardarlo como 'SEB.download' y tienes que guardarlo con el nombre 'SEB.lnk'
 - Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
 
