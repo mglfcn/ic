@@ -1,4 +1,4 @@
-# Otras alternativas para ejecutar Safe Exam Browser por primera vez (si abre alguna ventana puedes cerrarla):
+# Otras formas de ejecutar Safe Exam Browser por primera vez (si abre alguna ventana puedes cerrarla):
    
    - Teclea 'Safe Exam' en el 'cuadro de búsqueda' de la barra de tareas de Windows (abajo a la izquierda) y ejecútalo.  
       Si el cuadro de búsqueda de Windows no aparece → clic derecho en la barra de tareas / Búsqueda / Mostrar cuadro de búsqueda.
