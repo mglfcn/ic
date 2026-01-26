@@ -1,0 +1,61 @@
+<div style="margin:1em 0;">
+<label for="apellido">
+Introduce tu primer apellido:
+</label><br>
+<input type="text" id="apellido" style="margin-top:0.5em;">
+<br><br>
+<button type="button" onclick="calcularNumero()">Calcular número</button>
+</div>
+
+
+<div id="resultado" style="margin-top:1em; font-weight:bold;"></div>
+
+
+<script>
+function calcularNumero() {
+
+
+const mapa = {
+A: "00", B: "01", C: "02", D: "03", E: "04", F: "05", G: "06", H: "07",
+I: "10", J: "11", K: "11", L: "12", M: "13", N: "14", O: "15", P: "16",
+Q: "17", R: "20", S: "21", T: "22", U: "23", V: "24", W: "24",
+X: "25", Y: "26", Z: "27"
+};
+
+
+let apellido = document.getElementById("apellido").value;
+
+
+if (!apellido || apellido.length < 2) {
+document.getElementById("resultado").textContent =
+"Introduce un apellido con al menos dos letras.";
+return;
+}
+
+
+// Normalizar: mayúsculas y sin tildes
+apellido = apellido
+.toUpperCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g, "");
+
+
+const letra1 = apellido[0];
+const letra2 = apellido[1];
+
+
+if (!(letra1 in mapa) || !(letra2 in mapa)) {
+document.getElementById("resultado").textContent =
+"El apellido contiene caracteres no válidos.";
+return;
+}
+
+
+const numeroTexto = mapa[letra1] + mapa[letra2];
+const numeroFinal = parseInt(numeroTexto, 10).toString();
+
+
+document.getElementById("resultado").textContent =
+"Número calculado: " + numeroFinal;
+}
+</script>
