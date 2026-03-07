@@ -261,7 +261,7 @@ function measureQubit(qbit) {
   state = backupState;
 
   // Animación simultánea
-  const duration = 600;
+  const duration = 600; // 600
   const start = performance.now();
 
   function frame(now) {
@@ -328,7 +328,8 @@ function populateCNOTSelectors(n) {
     target.appendChild(opt2);
   }
 
-  if (n > 1) target.value = 1;  // valor por defecto razonable
+  //if (n > 1) target.value = 0;  // valor por defecto razonable
+  if (n > 1) control.value = 1;
 }
 
 
@@ -416,6 +417,12 @@ function renderBlochSingle(q, overrideVector = null) {
   const canvas = document.getElementById("bloch" + q);
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0,0,200,200);
+  
+  // etiqueta del qubit
+ctx.fillStyle = "black";
+ctx.font = "20px sans-serif";
+ctx.textAlign = "center";
+ctx.fillText("q" + toSubscript(q), 180, 20);
 
   const cx = 100, cy = 100, R = 70;
   const tilt = 0.4;
@@ -482,11 +489,11 @@ function renderBlochSingle(q, overrideVector = null) {
 
     
   if (ax === 1 && ay === 0 && az === 0) {
-    ctx.fillText(labelPos, pPos.x + 4, pPos.y + 6);
-    ctx.fillText(labelNeg, pNeg.x + 4, pNeg.y + 6);
+    ctx.fillText(labelPos, pPos.x + 14, pPos.y + 6);
+    ctx.fillText(labelNeg, pNeg.x + 14, pNeg.y + 6);
   } else{
-	ctx.fillText(labelPos, pPos.x + 4, pPos.y - 4);
-	ctx.fillText(labelNeg, pNeg.x + 4, pNeg.y - 4);
+	ctx.fillText(labelPos, pPos.x + 14, pPos.y - 4);
+	ctx.fillText(labelNeg, pNeg.x + 14, pNeg.y - 4);
   }
     
     
@@ -593,6 +600,11 @@ function animateHadamard(q, oldVec, duration){
   }
 
   requestAnimationFrame(frame);
+}
+
+function toSubscript(n) {
+  const sub = "₀₁₂₃₄₅₆₇₈₉";
+  return String(n).split("").map(d => sub[d]).join("");
 }
 
 init();
