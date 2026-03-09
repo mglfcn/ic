@@ -39,42 +39,41 @@
 </div>
 
 <script>
-function mostrarLab(){
+document.addEventListener("DOMContentLoaded", function() {
 
-  const lab = localStorage.getItem("laboratorio");
+  // función para mostrar contenido según lab
+  function mostrarLab() {
+    const lab = localStorage.getItem("laboratorio");
 
-  document.querySelectorAll(".lab").forEach(e=>{
-    e.style.display="none";
+    document.querySelectorAll(".lab").forEach(e => e.style.display = "none");
+    document.querySelectorAll(".labbtn").forEach(b => b.classList.remove("activo"));
+
+    if (!lab) return;
+
+    // mostrar contenido
+    document.querySelectorAll(".lab." + lab).forEach(e => e.style.display = "block");
+
+    // resaltar botón
+    const boton = document.querySelector('.labbtn[data-lab="' + lab + '"]');
+    if (boton) boton.classList.add("activo");
+  }
+
+  // añadir evento a botones
+  document.querySelectorAll(".labbtn").forEach(b => {
+    b.addEventListener("click", function() {
+      const lab = this.dataset.lab;
+      localStorage.setItem("laboratorio", lab);
+      mostrarLab();
+    });
   });
 
-  document.querySelectorAll(".labbtn").forEach(b=>{
-    b.classList.remove("activo");
-  });
-
-  if(!lab) return;
-
-  document.querySelectorAll("." + lab).forEach(e=>{
-    e.style.display="block";
-  });
-
-  const boton = document.querySelector('.labbtn[data-lab="'+lab+'"]');
-  if(boton) boton.classList.add("activo");
-}
-
-document.querySelectorAll(".labbtn").forEach(b=>{
-  b.addEventListener("click",function(){
-    const lab=this.dataset.lab;
-    localStorage.setItem("laboratorio",lab);
-    mostrarLab();
-  });
+  // mostrar contenido al cargar la página
+  mostrarLab();
 });
-
-mostrarLab();
-
 </script>
 
 <div class="lab salaA1 salaA2 salaA3 sala1 sala3 sala4 sala5 sala6" markdown="1">
-## Instrucciones para las salas de Informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
+## Instrucciones para las salas de informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
 1. Abre la carpeta ‘Software_Disponible’ que está en el escritorio y haz doble clic en el enlace directo ‘Safe Exam Browser 3.10’ para ejecutar SEB. 
    Si no consigues encontrarlo [aquí](https://mglfcn.github.io/ic/alternativas.html) tienes otras formas de hacerlo. 
 2. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
