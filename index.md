@@ -16,44 +16,17 @@
 </style>
 
 <div id="selectorLab">
-<p>¿En qué laboratorio estás?</p>
+<p>¿En qué laboratorio/sala estás?</p>
 
-<button class="labbtn" data-lab="lab1">Laboratorio 1</button>
-<button class="labbtn" data-lab="lab2">Laboratorio 2</button>
-<button class="labbtn" data-lab="lab3">Laboratorio 3</button>
-
-</div>
-
-<div class="lab lab1">
-<h2>Contenido para laboratorio 1</h2>
-</div>
-
-<div class="lab lab2">
-<h2>Contenido para laboratorio 2</h2>
-</div>
-
-<div class="lab lab3">
-<h2>Contenido para laboratorio 3</h2>
-</div>
-
-<!-- <button onclick="localStorage.removeItem('laboratorio'); location.reload();">
-Cambiar laboratorio
-</button> -->
-
-<div class="lab lab1">
-<h2>Contenido para laboratorio 1</h2>
-</div>
-
-<div class="lab lab2 lab3">
-<h2>Contenido para laboratorio 2</h2>
-</div>
-
-<div class="lab lab3">
-<h2>Contenido para laboratorio 3</h2>
+<button class="labbtn" data-lab="lab1">L 0.01</button>
+<button class="labbtn" data-lab="lab2">L 0.02</button>
+<button class="labbtn" data-lab="lab3">L 0.03</button>
+<button class="labbtn" data-lab="salaA1">Sala A1</button>
+<button class="labbtn" data-lab="salaA2">Sala A2</button>
+<button class="labbtn" data-lab="salaA3">Sala A3</button>
 </div>
 
 <script>
-
 function mostrarLab(){
 
   const lab = localStorage.getItem("laboratorio");
@@ -90,10 +63,14 @@ mostrarLab();
 
 # Instrucciones
 
+<div class="lab salaA1 salaA2 salaA3">
 ## Si estás en una de las salas de Informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
 1. Abre la carpeta ‘Software_Disponible’ que está en el escritorio y haz doble clic en el enlace directo ‘Safe Exam Browser 3.10’ para ejecutar SEB. 
    Si no consigues encontrarlo [aquí](https://mglfcn.github.io/ic/alternativas.html) tienes otras formas de hacerlo. 
 2. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
+</div>
 
+<div class="lab lab1 lab2 lab3">
 ## Si estás en un laboratorio del DIIS (0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 1.02, 2.11, Sala 2)
 1. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
+</div>
