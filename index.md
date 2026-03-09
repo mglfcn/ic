@@ -1,29 +1,39 @@
 <style>
-  .lab {
-  display: none;
+.lab {
+  display:none;
 }
 
 .labbtn {
-  padding: 6px 12px;
-  margin: 4px;
-  border: 1px solid #888;
-  background: #eee;
-  cursor: pointer;
+  padding:6px 12px;
+  margin:4px;
 }
 
 .labbtn.activo {
-  background: #2b6cb0;
-  color: white;
-  border-color: #2b6cb0;
+  background:#007acc !important;
+  color:white !important;
+  border:2px solid #005999 !important;
 }
 </style>
 
 <div id="selectorLab">
 <p>¿En qué laboratorio estás?</p>
 
-<button onclick="setLab('lab1')">Laboratorio 1</button>
-<button onclick="setLab('lab2')">Laboratorio 2</button>
-<button onclick="setLab('lab3')">Laboratorio 3</button>
+<button class="labbtn" data-lab="lab1">Laboratorio 1</button>
+<button class="labbtn" data-lab="lab2">Laboratorio 2</button>
+<button class="labbtn" data-lab="lab3">Laboratorio 3</button>
+
+</div>
+
+<div class="lab lab1">
+<h2>Contenido para laboratorio 1</h2>
+</div>
+
+<div class="lab lab2">
+<h2>Contenido para laboratorio 2</h2>
+</div>
+
+<div class="lab lab3">
+<h2>Contenido para laboratorio 3</h2>
 </div>
 
 <!-- <button onclick="localStorage.removeItem('laboratorio'); location.reload();">
@@ -42,39 +52,41 @@ Cambiar laboratorio
 <h2>Contenido para laboratorio 3</h2>
 </div>
 
-
 <script>
-function setLab(lab){
-  localStorage.setItem("laboratorio", lab);
-  mostrarLab();
-}
 
 function mostrarLab(){
-  const lab = localStorage.getItem("laboratorio");
-  if(!lab) return;
 
-  // ocultar contenidos
+  const lab = localStorage.getItem("laboratorio");
+
   document.querySelectorAll(".lab").forEach(e=>{
     e.style.display="none";
   });
 
-  // mostrar contenido del lab
+  document.querySelectorAll(".labbtn").forEach(b=>{
+    b.classList.remove("activo");
+  });
+
+  if(!lab) return;
+
   document.querySelectorAll("." + lab).forEach(e=>{
     e.style.display="block";
   });
 
-  // actualizar botones
-  document.querySelectorAll(".labbtn").forEach(b=>{
-    b.classList.remove("activo");
-    if (b.dataset.lab === lab) {
-      b.classList.add("activo");
-    }
-  });
+  const boton = document.querySelector('.labbtn[data-lab="'+lab+'"]');
+  if(boton) boton.classList.add("activo");
 }
 
-mostrarLab();
-</script>
+document.querySelectorAll(".labbtn").forEach(b=>{
+  b.addEventListener("click",function(){
+    const lab=this.dataset.lab;
+    localStorage.setItem("laboratorio",lab);
+    mostrarLab();
+  });
+});
 
+mostrarLab();
+
+</script>
 
 # Instrucciones
 
