@@ -1,15 +1,17 @@
-<div id="contenido-especial" style="display: none;">
-  Este mensaje solo es para el rango de red permitido.
-</div>
 # Instrucciones
-<!-- ## Si estás en una de las salas de Informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
+
+<div id="contenido-sala" style="display: none;">
+## Si estás en una de las salas de Informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
 1. Abre la carpeta ‘Software_Disponible’ que está en el escritorio y ejecuta SEB haciendo doble clic en el enlace directo ‘Safe Exam Browser 3.10’.  
    Si la carpeta no existe o no está el acceso directo haz doble clic en el icono 'Recargar la carpeta Software_Disponible' (disponible en el escritorio) y creará de nuevo la carpeta.
    Si no consigues encontrarlo [aquí](https://mglfcn.github.io/ic/alternativas.html) tienes otras formas de ejecutar SEB.
-3. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb) -->
+3. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
+</div>
 
+<div id="contenido-lab" style="display: none;">
 ## Si estás en un laboratorio del DIIS (0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 1.02, 2.11, Sala 2)
 1. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
+</div>
 
 <script>
 function ipToInt(ip){
@@ -26,8 +28,12 @@ fetch("https://api.ipify.org?format=json")
   .then(data => {
     const ip = data.ip;
 
-    if (ipInRange(ip,"155.210.152.40","155.210.152.45")) {
-      document.getElementById("contenido-especial").style.display = "block";
+    if (ipInRange(ip,"10.3.16.41","10.3.16.155")||
+        ipInRange(ip,"10.3.17.3","10.3.17.183"))||
+        ipInRange(ip,"155.210.154.191","155.210.154.210")) {
+      document.getElementById("contenido-lab").style.display = "block";
+    }else{
+     document.getElementById("contenido-sala").style.display = "block";
     }
   });
 </script>
