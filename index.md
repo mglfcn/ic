@@ -26,7 +26,7 @@ fetch("https://api.ipify.org?format=json")
   .then(data => {
     const ip = data.ip;
 
-    if (ipInRange(ip,"155.210.152.50","155.210.152.55")) {
+    if (ipInRange(ip,"155.210.152.40","155.210.152.45")) {
       document.getElementById("contenido-especial").style.display = "block";
     }
   });
