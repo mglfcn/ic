@@ -51,15 +51,24 @@ function setLab(lab){
 
 function mostrarLab(){
   const lab = localStorage.getItem("laboratorio");
-
   if(!lab) return;
 
+  // ocultar contenidos
   document.querySelectorAll(".lab").forEach(e=>{
     e.style.display="none";
   });
 
-  document.querySelectorAll("."+lab).forEach(e=>{
+  // mostrar contenido del lab
+  document.querySelectorAll("." + lab).forEach(e=>{
     e.style.display="block";
+  });
+
+  // actualizar botones
+  document.querySelectorAll(".labbtn").forEach(b=>{
+    b.classList.remove("activo");
+    if (b.dataset.lab === lab) {
+      b.classList.add("activo");
+    }
   });
 }
 
