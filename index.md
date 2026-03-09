@@ -1,4 +1,4 @@
-<div id="contenido-especial" style="display: block;">
+<div id="contenido-especial" style="display: none;">
   Este mensaje solo es para el rango de red permitido.
 </div>
 # Instrucciones
