@@ -1,4 +1,6 @@
-
+<div id="contenido-especial" style="display: block;">
+  Este mensaje solo es para el rango de red permitido.
+</div>
 # Instrucciones
 <!-- ## Si estás en una de las salas de Informática de centro (A1, A2, A3, 1, 3, 4, 5, 6)
 1. Abre la carpeta ‘Software_Disponible’ que está en el escritorio y ejecuta SEB haciendo doble clic en el enlace directo ‘Safe Exam Browser 3.10’.  
@@ -8,3 +10,19 @@
 
 ## Si estás en un laboratorio del DIIS (0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 1.02, 2.11, Sala 2)
 1. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
+
+<script>
+  fetch('https://api.ipify.org')
+    .then(response => response.json())
+    .then(data => {
+      const userIp = data.ip;
+      // Define aquí tu rango o IP específica
+      const rangoPermitido = "155.210.152.53"; 
+
+      if (userIp.startsWith(rangoPermitido)) {
+        document.getElementById('contenido-especial').style.display = 'none';
+        //document.getElementById('contenido-general').style.display = 'none';
+      }
+    })
+    .catch(error => console.error('Error obteniendo la IP:', error));
+</script>
