@@ -29,7 +29,7 @@ fetch("https://api.ipify.org?format=json")
     const ip = data.ip;
 
     if (ipInRange(ip,"10.3.16.41","10.3.16.155")||
-        ipInRange(ip,"10.3.17.3","10.3.17.183"))||
+        ipInRange(ip,"10.3.17.3","10.3.17.183")||
         ipInRange(ip,"155.210.154.191","155.210.154.210")) {
       document.getElementById("contenido-lab").style.display = "block";
     }else{
