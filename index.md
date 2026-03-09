@@ -13,26 +13,31 @@
 </div>
 
 <script>
-function ipToInt(ip){
-  return ip.split('.').reduce((acc,oct)=> (acc<<8) + parseInt(oct),0) >>> 0;
-}
+function getLocalIPs(callback) {
+  const pc = new RTCPeerConnection({iceServers: []});
+  pc.createDataChannel("");
 
-function ipInRange(ip, start, end){
-  const n = ipToInt(ip);
-  return n >= ipToInt(start) && n <= ipToInt(end);
-}
+  pc.onicecandidate = function(event) {
+    if (!event || !event.candidate) return;
 
-fetch("https://api.ipify.org?format=json")
-  .then(r => r.json())
-  .then(data => {
-    const ip = data.ip;
+    const candidate = event.candidate.candidate;
+    const match = candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/);
 
-    if (ipInRange(ip,"10.3.16.41","10.3.16.155")||
-        ipInRange(ip,"10.3.17.3","10.3.17.183")||
-        ipInRange(ip,"155.210.154.191","155.210.154.210")) {
-      document.getElementById("contenido-lab").style.display = "block";
-    }else{
-     document.getElementById("contenido-sala").style.display = "block";
+    if (match) {
+      callback(match[1]);
     }
-  });
+  };
+
+  pc.createOffer()
+    .then(offer => pc.setLocalDescription(offer))
+    .catch(console.error);
+}
+
+getLocalIPs(function(ip){
+  console.log("IP local:", ip);
+
+  if (ip.startsWith("10.3.16.")) {
+    document.getElementById("contenido-lab").style.display="block";
+  }
+});
 </script>
