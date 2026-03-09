@@ -10,20 +10,4 @@
 
 ## Si estás en un laboratorio del DIIS (0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 1.02, 2.11, Sala 2)
 1. Descarga y abre el fichero [config.seb](https://mglfcn.github.io/ic/config.seb)
-<!---
-<script>
-  fetch('https://api.ipify.org')
-    .then(response => response.json())
-    .then(data => {
-      const userIp = data.ip;
-      // Define aquí tu rango o IP específica
-      const rangoPermitido = "155.210.152."; 
 
-      if (userIp.startsWith(rangoPermitido)) {
-        document.getElementById('contenido-especial').style.display = 'none';
-        //document.getElementById('contenido-general').style.display = 'none';
-      }
-    })
-    .catch(error => console.error('Error obteniendo la IP:', error));
-</script>
---->
