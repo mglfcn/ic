@@ -1,3 +1,23 @@
+<style>
+  .lab {
+  display: none;
+}
+
+.labbtn {
+  padding: 6px 12px;
+  margin: 4px;
+  border: 1px solid #888;
+  background: #eee;
+  cursor: pointer;
+}
+
+.labbtn.activo {
+  background: #2b6cb0;
+  color: white;
+  border-color: #2b6cb0;
+}
+</style>
+
 <div id="selectorLab">
 <p>¿En qué laboratorio estás?</p>
 
@@ -6,9 +26,10 @@
 <button onclick="setLab('lab3')">Laboratorio 3</button>
 </div>
 
-<button onclick="localStorage.removeItem('laboratorio'); location.reload();">
+<!-- <button onclick="localStorage.removeItem('laboratorio'); location.reload();">
 Cambiar laboratorio
-</button>
+</button> -->
+
 <div class="lab lab1">
 <h2>Contenido para laboratorio 1</h2>
 </div>
