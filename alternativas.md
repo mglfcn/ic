@@ -1,5 +1,7 @@
 # Otras formas de ejecutar Safe Exam Browser (si abre alguna ventana puedes cerrarla):
    
+   - Si la carpeta ‘Software_Disponible’ no está en el escritorio o no encuentras el acceso directo haz doble clic en el icono ‘Recargar la carpeta Software_Disponible’ (disponible en el escritorio) y creará de nuevo la carpeta.
+   
    - Teclea 'Safe Exam' en el 'cuadro de búsqueda' de la barra de tareas de Windows (abajo a la izquierda) y ejecútalo.  
       Si el cuadro de búsqueda de Windows no aparece → clic derecho en la barra de tareas / Búsqueda / Mostrar cuadro de búsqueda.
      
