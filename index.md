@@ -17,7 +17,7 @@
     .then(data => {
       const userIp = data.ip;
       // Define aquí tu rango o IP específica
-      const rangoPermitido = "155.210.152.53"; 
+      const rangoPermitido = "155.210.152.54"; 
 
       if (userIp.startsWith(rangoPermitido)) {
         document.getElementById('contenido-especial').style.display = 'none';
