@@ -10,3 +10,16 @@
    - Descarga y abre directamente el fichero con el acceso directo [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)  
      ¡Ojo! Es posible que tu navegador quiera guardarlo como 'SEB.download'. Cambia el nombre antes de guardar a 'SEB.lnk' (ele, ene, ka) o renómbralo después.
    
+<button onclick="copiarTexto()">Copiar ruta</button>
+
+<script>
+function copiarTexto() {
+  const texto = '%systemroot%\system32\wscript.exe "\\uzappbd.unizar.es\repo\JukeboxShortcutVBS\JukeboxShortcut.vbs" 6A5E2C2F-6A8D-48E4-89AC-84C273B29C3E';
+
+  navigator.clipboard.writeText(texto).then(function() {
+    alert("Pégalo ahora en la barra de direcciones del explorador de archivos de Windows");
+  }, function(err) {
+    alert("Error al copiar: " + err);
+  });
+}
+</script>
