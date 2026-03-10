@@ -1,22 +1,60 @@
 ---
 layout: default
-title: Descargas
+title: Archivos
 permalink: /files/
 ---
 
 <style>
-.wrapper { max-width:1200px !important; }
 
-.file-list { list-style:none; padding:0; }
-.file-item { display:flex; align-items:center; padding:10px; border-bottom:1px solid #ddd; }
-.file-icon { width:32px; text-align:center; margin-right:12px; font-size:20px; }
-.file-name { flex:1; }
-.file-meta { color:#666; min-width:80px; text-align:right; }
+.wrapper{
+max-width:1200px !important;
+}
+
+.file-table{
+width:100%;
+border-collapse:collapse;
+font-family:system-ui;
+}
+
+.file-table th{
+text-align:left;
+border-bottom:2px solid #ddd;
+padding:8px;
+}
+
+.file-table td{
+padding:8px;
+border-bottom:1px solid #eee;
+}
+
+.file-name{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.file-size{
+text-align:right;
+color:#666;
+width:120px;
+}
+
+.file-download{
+text-align:center;
+width:80px;
+}
+
 </style>
 
 # 📦 Archivos disponibles
 
-<ul class="file-list">
+<table class="file-table">
+
+<tr>
+<th>Nombre</th>
+<th class="file-size">Tamaño</th>
+<th class="file-download">Descargar</th>
+</tr>
 
 {% assign current_dir = page.dir %}
 
@@ -26,9 +64,10 @@ permalink: /files/
 
 {% assign ext = file.extname | downcase %}
 
-<li class="file-item">
+<tr>
 
-<span class="file-icon">
+<td class="file-name">
+
 {% case ext %}
 {% when '.zip' %}📦
 {% when '.pdf' %}📄
@@ -36,27 +75,43 @@ permalink: /files/
 {% when '.jpg' %}🖼️
 {% when '.jpeg' %}🖼️
 {% when '.gif' %}🖼️
-{% when '.mp4' %}🎬
 {% when '.mp3' %}🎵
-{% when '.txt' %}📄
+{% when '.mp4' %}🎬
+{% when '.exe' %}⚙️
 {% else %}📁
 {% endcase %}
-</span>
 
-<span class="file-name">
-<a href="{{ file.path | relative_url }}" download>
+<a href="{{ file.path | relative_url }}">
 {{ file.name }}
 </a>
-</span>
 
-<span class="file-meta">
-{{ file.size | divided_by: 1024 }} KB
-</span>
+</td>
 
-</li>
+<td class="file-size">
+
+{% if file.size %}
+{% assign kb = file.size | divided_by: 1024 %}
+
+{% if kb > 1024 %}
+{{ kb | divided_by: 1024 }} MB
+{% else %}
+{{ kb }} KB
+{% endif %}
+
+{% else %}
+-
+{% endif %}
+
+</td>
+
+<td class="file-download">
+<a href="{{ file.path | relative_url }}" download>⬇️</a>
+</td>
+
+</tr>
 
 {% endunless %}
 {% endif %}
 {% endfor %}
 
-</ul>
+</table>
