@@ -5,11 +5,42 @@ permalink: /files/
 ---
 
 <style>
-.file-list { list-style:none; padding:0; }
-.file-item { display:flex; align-items:center; padding:8px; border-bottom:1px solid #ddd; }
-.file-icon { width:28px; text-align:center; margin-right:10px; font-size:20px; }
-.file-name { flex:1; }
-.file-meta { color:#666; font-size:0.9em; margin-left:10px; }
+.wrapper {
+  max-width: 1200px !important;
+}
+
+.page-content {
+  max-width: 1200px !important;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.file-icon {
+  width: 32px;
+  text-align: center;
+  margin-right: 12px;
+  font-size: 20px;
+}
+
+.file-name {
+  flex: 1;
+}
+
+.file-meta {
+  color: #666;
+  min-width: 80px;
+  text-align: right;
+}
 </style>
 
 # 📦 Archivos disponibles
