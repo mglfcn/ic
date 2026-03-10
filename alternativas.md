@@ -9,6 +9,8 @@
      
    - Descarga y abre directamente el fichero con el acceso directo [SEB.lnk](https://mglfcn.github.io/ic/SEB.lnk)  
      ¡Ojo! Es posible que tu navegador quiera guardarlo como 'SEB.download'. Cambia el nombre antes de guardar a 'SEB.lnk' (ele, ene, ka) o renómbralo después.
+
+   - Pulsa el botón para copiar un comando. Abre el explorador de archivos de Windows, pégalo en su barra de direcciones y pulsa Enter.
    
 <button onclick="copiarTexto()">Copiar ruta</button>
 
