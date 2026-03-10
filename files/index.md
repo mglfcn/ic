@@ -6,55 +6,67 @@ permalink: /files/
 
 <style>
 
-.wrapper{
-max-width:1200px !important;
+.wrapper{max-width:1200px!important}
+
+#search{
+width:100%;
+padding:8px;
+margin-bottom:12px;
+font-size:16px;
 }
 
-.file-table{
+table{
 width:100%;
 border-collapse:collapse;
 font-family:system-ui;
 }
 
-.file-table th{
+th{
 text-align:left;
 border-bottom:2px solid #ddd;
+cursor:pointer;
 padding:8px;
 }
 
-.file-table td{
+td{
 padding:8px;
 border-bottom:1px solid #eee;
 }
 
-.file-name{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.file-size{
+.size{
 text-align:right;
 color:#666;
 width:120px;
 }
 
-.file-download{
+.download{
 text-align:center;
 width:80px;
 }
 
+.name{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
 </style>
 
-# 📦 Archivos disponibles
+# 📦 Archivos
 
-<table class="file-table">
+<input id="search" placeholder="Buscar archivo...">
 
+<table id="fileTable">
+
+<thead>
 <tr>
-<th>Nombre</th>
-<th class="file-size">Tamaño</th>
-<th class="file-download">Descargar</th>
+<th onclick="sortTable(0)">Nombre</th>
+<th onclick="sortTable(1)">Tamaño</th>
+<th>Descargar</th>
 </tr>
+</thead>
+
+<tbody>
 
 {% assign current_dir = page.dir %}
 
@@ -66,7 +78,7 @@ width:80px;
 
 <tr>
 
-<td class="file-name">
+<td class="name">
 
 {% case ext %}
 {% when '.zip' %}📦
@@ -87,24 +99,22 @@ width:80px;
 
 </td>
 
-<td class="file-size">
+<td class="size">
 
 {% if file.size %}
-{% assign kb = file.size | divided_by: 1024 %}
+{% assign kb=file.size | divided_by:1024 %}
 
 {% if kb > 1024 %}
-{{ kb | divided_by: 1024 }} MB
+{{ kb | divided_by:1024 }} MB
 {% else %}
 {{ kb }} KB
 {% endif %}
 
-{% else %}
--
 {% endif %}
 
 </td>
 
-<td class="file-download">
+<td class="download">
 <a href="{{ file.path | relative_url }}" download>⬇️</a>
 </td>
 
@@ -114,4 +124,39 @@ width:80px;
 {% endif %}
 {% endfor %}
 
+</tbody>
 </table>
+
+<script>
+
+const search=document.getElementById("search")
+
+search.addEventListener("keyup",function(){
+
+let filter=search.value.toLowerCase()
+let rows=document.querySelectorAll("#fileTable tbody tr")
+
+rows.forEach(row=>{
+let text=row.innerText.toLowerCase()
+row.style.display=text.includes(filter)?"":"none"
+})
+
+})
+
+function sortTable(n){
+
+let table=document.getElementById("fileTable")
+let rows=Array.from(table.rows).slice(1)
+let asc=table.classList.toggle("asc")
+
+rows.sort((a,b)=>{
+let A=a.cells[n].innerText
+let B=b.cells[n].innerText
+return asc?A.localeCompare(B):B.localeCompare(A)
+})
+
+rows.forEach(r=>table.appendChild(r))
+
+}
+
+</script>
