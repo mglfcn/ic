@@ -16,7 +16,8 @@
 
 <script>
 function copiarTexto() {
-  const texto = '%systemroot%\\system32\\wscript.exe "\\\\uzappbd.unizar.es\\repo\\JukeboxShortcutVBS\\JukeboxShortcut.vbs" 6A5E2C2F-6A8D-48E4-89AC-84C273B29C3E';
+  const texto = '%systemroot%\\system32\\wscript.exe "\\\\uzappbd.unizar.es\\repo\\JukeboxShortcutVBS\\JukeboxShortcut.vbs" 6A5E2C2F-6A8D-48E4-89AC-84C273B29C3E'; // 3.4.1 
+   // 3.10
 
   navigator.clipboard.writeText(texto).then(function() {
     alert("Pégalo ahora en la barra de direcciones del explorador de archivos de Windows");
