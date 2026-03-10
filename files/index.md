@@ -61,7 +61,7 @@ gap:8px;
 <thead>
 <tr>
 <th onclick="sortTable(0)">Nombre</th>
-<th onclick="sortTable(1)">Tamaño</th>
+<!-- <th onclick="sortTable(1)">Tamaño</th> -->
 <th>Descargar</th>
 </tr>
 </thead>
