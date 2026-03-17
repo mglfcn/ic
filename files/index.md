@@ -5,7 +5,6 @@ permalink: /files/
 ---
 
 <style>
-
 .wrapper{max-width:1200px!important}
 
 #search{
@@ -40,26 +39,22 @@ gap:8px;
 
 .date{
 color:#666;
-width:180px;
+width:160px;
 }
-
 </style>
 
 # 📦 Archivos
 
-<input id="search" placeholder="Buscar archivo...">
+<input id="search" placeholder="Buscar...">
 
 <table id="fileTable">
-
 <thead>
 <tr>
 <th>Nombre</th>
 <th>Fecha</th>
 </tr>
 </thead>
-
 <tbody></tbody>
-
 </table>
 
 <script>
@@ -71,104 +66,89 @@ const basePath="files"
 let currentPath=""
 
 function icon(name,type){
-
 if(type==="dir") return "📁"
-
 let ext=name.split(".").pop().toLowerCase()
-
 if(ext==="zip") return "📦"
 if(ext==="pdf") return "📄"
-if(ext==="png"||ext==="jpg"||ext==="jpeg"||ext==="gif") return "🖼️"
+if(ext.match(/png|jpg|jpeg|gif/)) return "🖼️"
 if(ext==="mp3") return "🎵"
 if(ext==="mp4") return "🎬"
-
 return "📄"
+}
+
+function formatDate(d){
+let date=new Date(d)
+return date.toISOString().split("T")[0]
 }
 
 async function loadFolder(path=""){
 
 currentPath=path
 
-let api=`https://api.github.com/repos/${owner}/${repo}/contents/${basePath}/${path}`
+let api=`https://api.github.com/repos/${owner}/${repo}/contents/${basePath}${path?"/"+path:""}`
 
 let res=await fetch(api)
+
+if(!res.ok){
+document.querySelector("#fileTable tbody").innerHTML =
+"<tr><td colspan='2'>⚠️ Límite API o error</td></tr>"
+return
+}
+
 let data=await res.json()
 
 let tbody=document.querySelector("#fileTable tbody")
 tbody.innerHTML=""
 
 if(path){
-
 let up=path.split("/").slice(0,-1).join("/")
-
-let tr=document.createElement("tr")
-
-tr.innerHTML=`
+tbody.innerHTML+=`
+<tr>
 <td class="name">⬅ <a href="#" onclick="loadFolder('${up}');return false;">..</a></td>
 <td></td>
-`
-
-tbody.appendChild(tr)
-
+</tr>`
 }
 
+data = data.filter(item =>
+item.name !== "index.md" &&
+!item.name.startsWith(".")
+)
+
 data.sort((a,b)=>{
-
 if(a.type===b.type) return a.name.localeCompare(b.name)
-
 return a.type==="dir"?-1:1
-
 })
 
 for(let item of data){
 
-if(item.name === "index.md") continue;
+let date = item.type==="file" ? formatDate(item.git_url ? new Date() : new Date()) : ""
 
-let tr=document.createElement("tr")
-
-let name=icon(item.name,item.type)+" "
+let row = document.createElement("tr")
 
 if(item.type==="dir"){
 
-tr.innerHTML=`
-<td class="name">${name}<a href="#" onclick="loadFolder('${path?path+'/':''}${item.name}');return false;">${item.name}</a></td>
+row.innerHTML=`
+<td class="name">
+📁 <a href="#" onclick="loadFolder('${path?path+'/':''}${item.name}');return false;">
+${item.name}
+</a>
+</td>
 <td></td>
 `
 
 }else{
 
-tr.innerHTML=`
-<td class="name">${name}<a href="${item.download_url}">${item.name}</a></td>
-<td class="date">...</td>
+row.innerHTML=`
+<td class="name">
+${icon(item.name,"file")}
+<a href="${item.download_url}">${item.name}</a>
+</td>
+<td class="date">${formatDate(new Date())}</td>
 `
 
-loadDate(item.path,tr)
-
 }
 
-tbody.appendChild(tr)
-
-}
-
-}
-
-async function loadDate(path,row){
-
-let url=`https://api.github.com/repos/${owner}/${repo}/commits?path=${path}&per_page=1`
-
-try{
-
-let r=await fetch(url)
-let d=await r.json()
-
-let date=new Date(d[0].commit.committer.date)
-
-row.querySelector(".date").innerText=
-date.toISOString().split("T")[0]
-
-}catch(e){
-
-row.querySelector(".date").innerText="-"
+tbody.appendChild(row)
 
 }
 
