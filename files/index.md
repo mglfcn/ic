@@ -122,6 +122,8 @@ return a.type==="dir"?-1:1
 
 for(let item of data){
 
+if(item.name === "index.md") continue;
+
 let tr=document.createElement("tr")
 
 let name=icon(item.name,item.type)+" "
