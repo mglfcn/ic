@@ -54,7 +54,7 @@ width:180px;
 <thead>
 <tr>
 <th>Nombre</th>
-<th>Último commit</th>
+<th>Fecha</th>
 </tr>
 </thead>
 
