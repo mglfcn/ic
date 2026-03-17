@@ -24,7 +24,6 @@ font-family:system-ui;
 th{
 text-align:left;
 border-bottom:2px solid #ddd;
-cursor:pointer;
 padding:8px;
 }
 
@@ -33,21 +32,15 @@ padding:8px;
 border-bottom:1px solid #eee;
 }
 
-.size{
-text-align:right;
-color:#666;
-width:120px;
-}
-
-.download{
-text-align:center;
-width:80px;
-}
-
 .name{
 display:flex;
 align-items:center;
 gap:8px;
+}
+
+.date{
+color:#666;
+width:180px;
 }
 
 </style>
@@ -60,103 +53,135 @@ gap:8px;
 
 <thead>
 <tr>
-<th onclick="sortTable(0)">Nombre</th>
-<!-- <th onclick="sortTable(1)">Tamaño</th> -->
-<th>Descargar</th>
+<th>Nombre</th>
+<th>Último commit</th>
 </tr>
 </thead>
 
-<tbody>
+<tbody></tbody>
 
-{% assign current_dir = page.dir %}
-
-{% for file in site.static_files %}
-{% if file.path contains current_dir %}
-{% unless file.name == "index.md" %}
-
-{% assign ext = file.extname | downcase %}
-
-<tr>
-
-<td class="name">
-
-{% case ext %}
-{% when '.zip' %}📦
-{% when '.pdf' %}📄
-{% when '.png' %}🖼️
-{% when '.jpg' %}🖼️
-{% when '.jpeg' %}🖼️
-{% when '.gif' %}🖼️
-{% when '.mp3' %}🎵
-{% when '.mp4' %}🎬
-{% when '.exe' %}⚙️
-{% else %}📁
-{% endcase %}
-
-<a href="{{ file.path | relative_url }}">
-{{ file.name }}
-</a>
-
-</td>
-
-<!-- <td class="size">
-
-{% if file.size %}
-{% assign kb=file.size | divided_by:1024 %}
-
-{% if kb > 1024 %}
-{{ kb | divided_by:1024 }} MB
-{% else %}
-{{ kb }} KB
-{% endif %}
-
-{% endif %}
-
-</td> -->
-
-<td class="download">
-<a href="{{ file.path | relative_url }}" download>⬇️</a>
-</td>
-
-</tr>
-
-{% endunless %}
-{% endif %}
-{% endfor %}
-
-</tbody>
 </table>
 
 <script>
 
-const search=document.getElementById("search")
+const owner="mglfcn"
+const repo="ic"
+const basePath="files"
 
-search.addEventListener("keyup",function(){
+let currentPath=""
 
-let filter=search.value.toLowerCase()
-let rows=document.querySelectorAll("#fileTable tbody tr")
+function icon(name,type){
 
-rows.forEach(row=>{
-let text=row.innerText.toLowerCase()
-row.style.display=text.includes(filter)?"":"none"
-})
+if(type==="dir") return "📁"
 
-})
+let ext=name.split(".").pop().toLowerCase()
 
-function sortTable(n){
+if(ext==="zip") return "📦"
+if(ext==="pdf") return "📄"
+if(ext==="png"||ext==="jpg"||ext==="jpeg"||ext==="gif") return "🖼️"
+if(ext==="mp3") return "🎵"
+if(ext==="mp4") return "🎬"
 
-let table=document.getElementById("fileTable")
-let rows=Array.from(table.rows).slice(1)
-let asc=table.classList.toggle("asc")
+return "📄"
+}
 
-rows.sort((a,b)=>{
-let A=a.cells[n].innerText
-let B=b.cells[n].innerText
-return asc?A.localeCompare(B):B.localeCompare(A)
-})
+async function loadFolder(path=""){
 
-rows.forEach(r=>table.appendChild(r))
+currentPath=path
+
+let api=`https://api.github.com/repos/${owner}/${repo}/contents/${basePath}/${path}`
+
+let res=await fetch(api)
+let data=await res.json()
+
+let tbody=document.querySelector("#fileTable tbody")
+tbody.innerHTML=""
+
+if(path){
+
+let up=path.split("/").slice(0,-1).join("/")
+
+let tr=document.createElement("tr")
+
+tr.innerHTML=`
+<td class="name">⬅ <a href="#" onclick="loadFolder('${up}');return false;">..</a></td>
+<td></td>
+`
+
+tbody.appendChild(tr)
 
 }
+
+data.sort((a,b)=>{
+
+if(a.type===b.type) return a.name.localeCompare(b.name)
+
+return a.type==="dir"?-1:1
+
+})
+
+for(let item of data){
+
+let tr=document.createElement("tr")
+
+let name=icon(item.name,item.type)+" "
+
+if(item.type==="dir"){
+
+tr.innerHTML=`
+<td class="name">${name}<a href="#" onclick="loadFolder('${path?path+'/':''}${item.name}');return false;">${item.name}</a></td>
+<td></td>
+`
+
+}else{
+
+tr.innerHTML=`
+<td class="name">${name}<a href="${item.download_url}">${item.name}</a></td>
+<td class="date">...</td>
+`
+
+loadDate(item.path,tr)
+
+}
+
+tbody.appendChild(tr)
+
+}
+
+}
+
+async function loadDate(path,row){
+
+let url=`https://api.github.com/repos/${owner}/${repo}/commits?path=${path}&per_page=1`
+
+try{
+
+let r=await fetch(url)
+let d=await r.json()
+
+let date=new Date(d[0].commit.committer.date)
+
+row.querySelector(".date").innerText=
+date.toISOString().split("T")[0]
+
+}catch(e){
+
+row.querySelector(".date").innerText="-"
+
+}
+
+}
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+let f=this.value.toLowerCase()
+
+document.querySelectorAll("#fileTable tbody tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
+})
+
+})
+
+loadFolder()
 
 </script>
