@@ -5,6 +5,7 @@ permalink: /files/
 ---
 
 <style>
+
 .wrapper{max-width:1200px!important}
 
 #search{
@@ -23,6 +24,7 @@ font-family:system-ui;
 th{
 text-align:left;
 border-bottom:2px solid #ddd;
+cursor:pointer;
 padding:8px;
 }
 
@@ -31,139 +33,130 @@ padding:8px;
 border-bottom:1px solid #eee;
 }
 
+.size{
+text-align:right;
+color:#666;
+width:120px;
+}
+
+.download{
+text-align:center;
+width:80px;
+}
+
 .name{
 display:flex;
 align-items:center;
 gap:8px;
 }
 
-.date{
-color:#666;
-width:160px;
-}
 </style>
 
 # 📦 Archivos
 
-<input id="search" placeholder="Buscar...">
+<input id="search" placeholder="Buscar archivo...">
 
 <table id="fileTable">
+
 <thead>
 <tr>
-<th>Nombre</th>
-<th>Fecha</th>
+<th onclick="sortTable(0)">Nombre</th>
+<!-- <th onclick="sortTable(1)">Tamaño</th> -->
+<th>Descargar</th>
 </tr>
 </thead>
-<tbody></tbody>
+
+<tbody>
+
+{% assign current_dir = page.dir %}
+
+{% for file in site.static_files %}
+{% if file.path contains current_dir %}
+{% unless file.name == "index.md" %}
+
+{% assign ext = file.extname | downcase %}
+
+<tr>
+
+<td class="name">
+
+{% case ext %}
+{% when '.zip' %}📦
+{% when '.pdf' %}📄
+{% when '.png' %}🖼️
+{% when '.jpg' %}🖼️
+{% when '.jpeg' %}🖼️
+{% when '.gif' %}🖼️
+{% when '.mp3' %}🎵
+{% when '.mp4' %}🎬
+{% when '.exe' %}⚙️
+{% else %}📁
+{% endcase %}
+
+<a href="{{ file.path | relative_url }}">
+{{ file.name }}
+</a>
+
+</td>
+
+<!-- <td class="size">
+
+{% if file.size %}
+{% assign kb=file.size | divided_by:1024 %}
+
+{% if kb > 1024 %}
+{{ kb | divided_by:1024 }} MB
+{% else %}
+{{ kb }} KB
+{% endif %}
+
+{% endif %}
+
+</td> -->
+
+<td class="download">
+<a href="{{ file.path | relative_url }}" download>⬇️</a>
+</td>
+
+</tr>
+
+{% endunless %}
+{% endif %}
+{% endfor %}
+
+</tbody>
 </table>
 
 <script>
 
-const owner="mglfcn"
-const repo="ic"
-const basePath="files"
+const search=document.getElementById("search")
 
-let currentPath=""
+search.addEventListener("keyup",function(){
 
-function icon(name,type){
-if(type==="dir") return "📁"
-let ext=name.split(".").pop().toLowerCase()
-if(ext==="zip") return "📦"
-if(ext==="pdf") return "📄"
-if(ext.match(/png|jpg|jpeg|gif/)) return "🖼️"
-if(ext==="mp3") return "🎵"
-if(ext==="mp4") return "🎬"
-return "📄"
-}
+let filter=search.value.toLowerCase()
+let rows=document.querySelectorAll("#fileTable tbody tr")
 
-function formatDate(d){
-let date=new Date(d)
-return date.toISOString().split("T")[0]
-}
-
-async function loadFolder(path=""){
-
-currentPath=path
-
-let api=`https://api.github.com/repos/${owner}/${repo}/contents/${basePath}${path?"/"+path:""}`
-
-let res=await fetch(api)
-
-if(!res.ok){
-document.querySelector("#fileTable tbody").innerHTML =
-"<tr><td colspan='2'>⚠️ Límite API o error</td></tr>"
-return
-}
-
-let data=await res.json()
-
-let tbody=document.querySelector("#fileTable tbody")
-tbody.innerHTML=""
-
-if(path){
-let up=path.split("/").slice(0,-1).join("/")
-tbody.innerHTML+=`
-<tr>
-<td class="name">⬅ <a href="#" onclick="loadFolder('${up}');return false;">..</a></td>
-<td></td>
-</tr>`
-}
-
-data = data.filter(item =>
-item.name !== "index.md" &&
-!item.name.startsWith(".")
-)
-
-data.sort((a,b)=>{
-if(a.type===b.type) return a.name.localeCompare(b.name)
-return a.type==="dir"?-1:1
-})
-
-for(let item of data){
-
-let date = item.type==="file" ? formatDate(item.git_url ? new Date() : new Date()) : ""
-
-let row = document.createElement("tr")
-
-if(item.type==="dir"){
-
-row.innerHTML=`
-<td class="name">
-📁 <a href="#" onclick="loadFolder('${path?path+'/':''}${item.name}');return false;">
-${item.name}
-</a>
-</td>
-<td></td>
-`
-
-}else{
-
-row.innerHTML=`
-<td class="name">
-${icon(item.name,"file")}
-<a href="${item.download_url}">${item.name}</a>
-</td>
-<td class="date">${formatDate(new Date())}</td>
-`
-
-}
-
-tbody.appendChild(row)
-
-}
-
-}
-
-document.getElementById("search").addEventListener("keyup",function(){
-
-let f=this.value.toLowerCase()
-
-document.querySelectorAll("#fileTable tbody tr").forEach(r=>{
-r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
+rows.forEach(row=>{
+let text=row.innerText.toLowerCase()
+row.style.display=text.includes(filter)?"":"none"
 })
 
 })
 
-loadFolder()
+function sortTable(n){
+
+let table=document.getElementById("fileTable")
+let rows=Array.from(table.rows).slice(1)
+let asc=table.classList.toggle("asc")
+
+rows.sort((a,b)=>{
+let A=a.cells[n].innerText
+let B=b.cells[n].innerText
+return asc?A.localeCompare(B):B.localeCompare(A)
+})
+
+rows.forEach(r=>table.appendChild(r))
+
+}
 
 </script>
